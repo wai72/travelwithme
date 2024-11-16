@@ -1,0 +1,44 @@
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependency directories
+node_modules/
+.pnpm-debug.log*
+
+# React Native specific
+*.swp
+.expo/
+.expo-shared/
+dist/
+build/
+android/app/build/
+
+# Android specific
+android/.gradle/
+android/.idea/
+android/app/build/
+android/app/debug.keystore
+android/local.properties
+android/.cxx/
+android/app/.cxx/
+android/.settings/
+android/captures/
+android/lint-results.xml
+android/lint-report.html
+
+# iOS specific
+ios/Pods/
+ios/build/
+ios/*.xcodeproj/
+ios/*.xcworkspace/
+xcuserdata/
+DerivedData/
+*.xcuserstate
+
+# OS generated files
+.DS_Store
+Thumbs.db
+Desktop.ini
