@@ -79,3 +79,6 @@ To learn more about React Native, take a look at the following resources:
 - [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
 # travelwithme
 # travelwithme
+
+# INFO
+<kbd>I got Flight's data but it is really complex to bind in UI <kbd>

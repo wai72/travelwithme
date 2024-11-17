@@ -1,4 +1,5 @@
 import {  StyleSheet } from 'react-native';
+import { appColor } from '../../appconstant/app_color';
 
 const flightStyles = StyleSheet.create({
     container: {
@@ -41,6 +42,23 @@ const flightStyles = StyleSheet.create({
       height: 50,
       width: "100%",
       marginBottom: 10,
+    },
+    searchButton: {
+      backgroundColor: appColor.primary_color,
+      paddingVertical: 14,
+      borderRadius: 8,
+      alignItems: "center",
+      marginTop: 16,
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.2,
+      shadowRadius: 4,
+      elevation: 4, // For Android shadow
+    },
+    searchButtonText: {
+      color: "#fff",
+      fontSize: 16,
+      fontWeight: "600",
     },
   });
 export default flightStyles;

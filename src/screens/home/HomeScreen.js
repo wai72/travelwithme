@@ -6,7 +6,6 @@ import {
   FlatList,
   TouchableOpacity,
   ActivityIndicator,
-  homehomeStyleheet,
   Image,
   ImageBackground,
 } from "react-native";
@@ -15,6 +14,7 @@ import { fetchAirports } from "../../redux/flight/flightSlice";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/Ionicons";
 import homeStyle from "./home.style";
+import AirportListItem from "../../components/airport_item";
 
 export default function HomeScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -37,34 +37,9 @@ export default function HomeScreen({ navigation }) {
   }
   // Render each airport in a styled card
   const renderAirportItem = ({ item }) => (
-    <TouchableOpacity
-      style={homeStyle.card}
-      onPress={() => navigateTo(item)}
-    >
-      {/* Airport Image */}
-      <Image
-        source={{
-          uri:
-            item.presentation.image ||
-            "https://logos.skyscnr.com/images/airlines/favicon/IB.png",
-        }}
-        style={homeStyle.thumbnail}
-      />
-
-      {/* Airport Details */}
-      <View style={homeStyle.detailsContainer}>
-        <Text style={homeStyle.airportName}>{item.presentation.title}</Text>
-        <View style={homeStyle.statsContainer}>
-          <Text style={homeStyle.statsText}>
-            {item.presentation.viewers || 0} viewers
-          </Text>
-        </View>
-        <TouchableOpacity onPress={() => navigateTo(item)}>
-          <Text style={homeStyle.detailsLink}>See details</Text>
-        </TouchableOpacity>
-      </View>
-    </TouchableOpacity>
+    <AirportListItem item={item} onPress={() => navigateTo(item)}/>
   );
+
   return (
     <SafeAreaView style={homeStyle.container}>
       {/* Top Section with Background */}

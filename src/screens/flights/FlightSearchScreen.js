@@ -14,12 +14,15 @@ import { Picker } from "@react-native-picker/picker";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useNavigation } from "@react-navigation/native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import appData from "../../appconstant/app_data";
 
 
 export default function FlightListScreen({ route }) {
   const [fromAirport, setFromAirport] = useState("");
   const [toAirport, setToAirport] = useState("");
-  const [departureDate, setDepartureDate] = useState("");
+  const [departureDate, setDepartureDate] = useState("2024-11-30");
+  const [fromID, setFromID] = useState(appData.fromID);
+  const [toID, setToID] = useState(appData.toID);
   const [adults, setAdults] = useState(1);
   const [children, setChildren] = useState(0);
   const [infants, setInfants] = useState(0);
@@ -46,11 +49,12 @@ export default function FlightListScreen({ route }) {
   const searchFlights = () => {
     dispatch(
       fetchFlights({
-        fromId: "eyJzIjoiTEFYQSIsImUiOiIyNzUzNjIxMSIsImgiOiIyNzUzNjIxMSJ9%3",
-        toId: "eyJzIjoiTllDQSIsImUiOiIyNzUzNzU0MiIsImgiOiIyNzUzNzU0MiJ9",
-        departDate: "2024-11-30",
+        fromId: fromID,
+        toId: toID,
+        departDate: departureDate,
       })
     );
+    console.log(' I got flight data ', flights); // I got Flight's data but it is really complex to bind in UI
     navigation.navigate("FlightList")
   };
 
@@ -76,7 +80,7 @@ export default function FlightListScreen({ route }) {
           style={flightStyles.input}
           placeholder="Departure Date (YYYY-MM-DD)"
           value={departureDate}
-          editable={false} // Prevent manual text input
+          editable={false} 
           pointerEvents="none" // For iOS to disable keyboard
         />
       </TouchableOpacity>
@@ -86,7 +90,13 @@ export default function FlightListScreen({ route }) {
         onConfirm={onDateChange}
         onCancel={hideDatePicker}
       />
-        <Button title="Search Flights" onPress={searchFlights} />
+       {/* Attractive Button */}
+       <TouchableOpacity
+          style={flightStyles.searchButton}
+          onPress={searchFlights}
+        >
+          <Text style={flightStyles.searchButtonText}>Search Flights</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
