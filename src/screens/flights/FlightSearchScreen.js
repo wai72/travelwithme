@@ -4,18 +4,17 @@ import {
   Text,
   TextInput,
   Button,
-  FlatList,
-  ActivityIndicator,
-  flightStylesheet,
-  ScrollView,
   SafeAreaView,
+  TouchableOpacity
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import flightStyles from "./flights.style";
 import { fetchFlights } from "../../redux/flight/flightSlice";
-import DatePicker from "react-native-date-picker";
 import { Picker } from "@react-native-picker/picker";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import { useNavigation } from "@react-navigation/native";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+
 
 export default function FlightListScreen({ route }) {
   const [fromAirport, setFromAirport] = useState("");
@@ -25,10 +24,24 @@ export default function FlightListScreen({ route }) {
   const [children, setChildren] = useState(0);
   const [infants, setInfants] = useState(0);
   const [classType, setClassType] = useState("economy");
+  const [showDatePicker, setShowDatePicker] = useState(false);
   const { airportId } = route.params;
   const dispatch = useDispatch();
   const { flights, loading } = useSelector((state) => state.flight);
   const navigation = useNavigation();
+
+  const hideDatePicker = () => {
+    setShowDatePicker(false);
+  };
+    // Handle date selection
+    const onDateChange = (event, selectedDate) => {
+      if (Platform.OS === "android") setShowDatePicker(false); // Close picker on Android
+      if (selectedDate) {
+        const formattedDate = selectedDate.toISOString().split("T")[0]; // Format as YYYY-MM-DD
+        setDepartureDate(formattedDate);
+        setShowDatePicker(false);
+      }
+    };
 
   const searchFlights = () => {
     dispatch(
@@ -57,33 +70,23 @@ export default function FlightListScreen({ route }) {
           value={toAirport}
           onChangeText={setToAirport}
         />
+       {/* Input for Date Selection */}
+      <TouchableOpacity onPress={() => setShowDatePicker(true)}>
         <TextInput
           style={flightStyles.input}
           placeholder="Departure Date (YYYY-MM-DD)"
           value={departureDate}
-          onChangeText={setDepartureDate}
+          editable={false} // Prevent manual text input
+          pointerEvents="none" // For iOS to disable keyboard
         />
-        
+      </TouchableOpacity>
+      <DateTimePickerModal
+        isVisible={showDatePicker}
+        mode="date"
+        onConfirm={onDateChange}
+        onCancel={hideDatePicker}
+      />
         <Button title="Search Flights" onPress={searchFlights} />
-
-        {loading ? (
-          <ActivityIndicator size="large" color="#0000ff" />
-        ) : (
-          <FlatList
-            data={flights}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => (
-              <View style={flightStyles.flightCard}>
-                <Text>Flight: {item.flightName}</Text>
-                <Text>Price: {item.price}</Text>
-                <Text>Duration: {item.duration}</Text>
-                <Text>
-                  Transit: {item.transit ? item.transit.name : "Direct"}
-                </Text>
-              </View>
-            )}
-          />
-        )}
       </View>
     </SafeAreaView>
   );

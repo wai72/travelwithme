@@ -18,7 +18,7 @@ import homeStyle from "./home.style";
 
 export default function HomeScreen({ navigation }) {
   const dispatch = useDispatch();
-  const [query, setQuery] = useState("new");
+  const [query, setQuery] = useState("");
   const { airports, loading } = useSelector((state) => state.flight);
   const [error, setError] = useState(null);
 
@@ -27,29 +27,50 @@ export default function HomeScreen({ navigation }) {
   }, [navigation]);
 
   useEffect(() => {
-    dispatch(fetchAirports(query));
+    dispatch(fetchAirports(query == '' ? 'new' : query));
   }, [query]);
 
+  const navigateTo = (item) => {
+    navigation.navigate("FlightSearchScreen", {
+      airportId: item.presentation.id,
+    })
+  }
+  // Render each airport in a styled card
   const renderAirportItem = ({ item }) => (
     <TouchableOpacity
       style={homeStyle.card}
-      onPress={() =>
-        navigation.navigate("FlightSearchScreen", {
-          airportId: item.presentation.id,
-        })
-      }
+      onPress={() => navigateTo(item)}
     >
-      <Text style={homeStyle.airportName}>{item.presentation.title}</Text>
-      <Text style={homeStyle.airportDetails}>{item.presentation.subtitle}</Text>
+      {/* Airport Image */}
+      <Image
+        source={{
+          uri:
+            item.presentation.image ||
+            "https://logos.skyscnr.com/images/airlines/favicon/IB.png",
+        }}
+        style={homeStyle.thumbnail}
+      />
+
+      {/* Airport Details */}
+      <View style={homeStyle.detailsContainer}>
+        <Text style={homeStyle.airportName}>{item.presentation.title}</Text>
+        <View style={homeStyle.statsContainer}>
+          <Text style={homeStyle.statsText}>
+            {item.presentation.viewers || 0} viewers
+          </Text>
+        </View>
+        <TouchableOpacity onPress={() => navigateTo(item)}>
+          <Text style={homeStyle.detailsLink}>See details</Text>
+        </TouchableOpacity>
+      </View>
     </TouchableOpacity>
   );
-
   return (
     <SafeAreaView style={homeStyle.container}>
       {/* Top Section with Background */}
       <ImageBackground
         source={{
-          uri: "https://content.skyscnr.com/m/3719e8f4a5daf43d/original/Flights-Placeholder.jpg", 
+          uri: "https://content.skyscnr.com/m/3719e8f4a5daf43d/original/Flights-Placeholder.jpg",
         }}
         style={homeStyle.topSection}
         imageStyle={homeStyle.backgroundImage}
@@ -59,13 +80,17 @@ export default function HomeScreen({ navigation }) {
             <Text style={homeStyle.greeting}>Hello, Wai!</Text>
             <Text style={homeStyle.subtitle}>Welcome to Flight Explorer</Text>
           </View>
-          
         </View>
       </ImageBackground>
 
       {/* Search Input */}
       <View style={homeStyle.searchContainer}>
-        <Icon name="search-outline" size={20} color="#666" style={homeStyle.searchIcon} />
+        <Icon
+          name="search-outline"
+          size={20}
+          color="#666"
+          style={homeStyle.searchIcon}
+        />
         <TextInput
           style={homeStyle.searchInput}
           placeholder="Search for flights and more"
@@ -91,4 +116,3 @@ export default function HomeScreen({ navigation }) {
     </SafeAreaView>
   );
 }
-
