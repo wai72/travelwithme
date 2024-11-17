@@ -1,5 +1,5 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getAirports, getFlights } from '../../api/flightApi';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { getAirports, getFlights } from "../../api/flightApi";
 
 const initialState = {
   airports: [],
@@ -9,21 +9,21 @@ const initialState = {
 };
 
 export const fetchAirports = createAsyncThunk(
-  'flight/fetchAirports',
+  "flight/fetchAirports",
   async (query) => {
     return await getAirports(query);
   }
 );
 
 export const fetchFlights = createAsyncThunk(
-  'flight/fetchFlights',
+  "flight/fetchFlights",
   async (params) => {
     return await getFlights(params);
   }
 );
 
 const flightSlice = createSlice({
-  name: 'flight',
+  name: "flight",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
