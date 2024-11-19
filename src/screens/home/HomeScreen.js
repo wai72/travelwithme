@@ -35,14 +35,12 @@ export default function HomeScreen({ navigation }) {
       airportId: item.presentation.id,
     })
   }
-  // Render each airport in a styled card
   const renderAirportItem = ({ item }) => (
     <AirportListItem item={item} onPress={() => navigateTo(item)}/>
   );
 
   return (
     <SafeAreaView style={homeStyle.container}>
-      {/* Top Section with Background */}
       <ImageBackground
         source={{
           uri: "https://content.skyscnr.com/m/3719e8f4a5daf43d/original/Flights-Placeholder.jpg",
@@ -57,8 +55,6 @@ export default function HomeScreen({ navigation }) {
           </View>
         </View>
       </ImageBackground>
-
-      {/* Search Input */}
       <View style={homeStyle.searchContainer}>
         <Icon
           name="search-outline"
@@ -73,12 +69,10 @@ export default function HomeScreen({ navigation }) {
           onChangeText={(text) => setQuery(text)}
         />
       </View>
-
-      {/* Loading and Error States */}
+     
       {loading && <ActivityIndicator size="large" color="#007AFF" />}
       {error && <Text style={homeStyle.errorText}>{error}</Text>}
 
-      {/* Airport Search Results */}
       {!loading && airports?.length === 0 && query.trim() !== "" && (
         <Text style={homeStyle.emptyText}>No results found.</Text>
       )}

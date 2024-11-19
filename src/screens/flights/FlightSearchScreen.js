@@ -5,7 +5,8 @@ import {
   TextInput,
   Button,
   SafeAreaView,
-  TouchableOpacity
+  TouchableOpacity,
+  Alert
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import flightStyles from "./flights.style";
@@ -36,26 +37,30 @@ export default function FlightListScreen({ route }) {
   const hideDatePicker = () => {
     setShowDatePicker(false);
   };
-    // Handle date selection
     const onDateChange = (event, selectedDate) => {
-      if (Platform.OS === "android") setShowDatePicker(false); // Close picker on Android
+      if (Platform.OS === "android") setShowDatePicker(false);
       if (selectedDate) {
-        const formattedDate = selectedDate.toISOString().split("T")[0]; // Format as YYYY-MM-DD
+        const formattedDate = selectedDate.toISOString().split("T")[0]; 
         setDepartureDate(formattedDate);
         setShowDatePicker(false);
       }
     };
 
   const searchFlights = () => {
-    dispatch(
-      fetchFlights({
-        fromId: fromID,
-        toId: toID,
-        departDate: departureDate,
-      })
-    );
-    console.log(' I got flight data ', flights); // I got Flight's data but it is really complex to bind in UI
-    navigation.navigate("FlightList")
+    if(!fromAirport && !toAirport && !departureDate){
+      Alert.show('Please fill all the required fields');
+    }else{
+      dispatch(
+        fetchFlights({
+          fromId: fromID,
+          toId: toID,
+          departDate: departureDate,
+        })
+      );
+      console.log(' I got flight data ', flights); // I got Flight's data but it is really complex to bind in UI
+      navigation.navigate("FlightList");
+    }
+   
   };
 
   return (
@@ -74,14 +79,13 @@ export default function FlightListScreen({ route }) {
           value={toAirport}
           onChangeText={setToAirport}
         />
-       {/* Input for Date Selection */}
       <TouchableOpacity onPress={() => setShowDatePicker(true)}>
         <TextInput
           style={flightStyles.input}
           placeholder="Departure Date (YYYY-MM-DD)"
           value={departureDate}
           editable={false} 
-          pointerEvents="none" // For iOS to disable keyboard
+          pointerEvents="none" 
         />
       </TouchableOpacity>
       <DateTimePickerModal

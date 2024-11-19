@@ -12,7 +12,6 @@ const AirportListItem = ({ item, onPress }) => (
       style={airPortListStyle.card}
       onPress={onPress}
     >
-      {/* Airport Image */}
       <Image
         source={{
           uri:
@@ -22,7 +21,6 @@ const AirportListItem = ({ item, onPress }) => (
         style={airPortListStyle.thumbnail}
       />
 
-      {/* Airport Details */}
       <View style={airPortListStyle.detailsContainer}>
         <Text style={airPortListStyle.airportName}>{item.presentation.title}</Text>
         <View style={airPortListStyle.statsContainer}>

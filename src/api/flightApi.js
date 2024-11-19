@@ -18,7 +18,6 @@ export const getAirports = async (query) => {
 };
 
 export const getFlights = async (params) => {
-  console.log("query is ", params);
   const response = await axios.get(
     `https://${API_HOST}/api/v1/flights/search-one-way`,
     {

@@ -5,7 +5,7 @@ const flights = [
   {
     id: "1",
     airline: "VN Airlines",
-    logo: "https://via.placeholder.com/40", // Replace with airline logo URLs
+    logo: "https://via.placeholder.com/40", 
     departureTime: "15:30",
     arrivalTime: "19:00",
     duration: "3h 30m",

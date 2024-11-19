@@ -4,14 +4,14 @@ import { appColor } from '../../appconstant/app_color';
 const flightListStyle = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: "#fff",
+      backgroundColor: "#66",
       paddingTop: 20,
     },
     listContainer: {
       paddingHorizontal: 16,
     },
     card: {
-      backgroundColor: '#FFEBEE',
+      backgroundColor: '#fff',
       borderRadius: 8,
       padding: 16,
       marginBottom: 16,
